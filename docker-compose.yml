@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - ENVIRONMENT=development
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  # For testing with a reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
+
+  # For local testing with multiple instances (optional)
+  web2:
+    build: .
+    ports:
+      - "5001:5000"
+    environment:
+      - ENVIRONMENT=development
+    restart: unless-stopped
