@@ -42,7 +42,7 @@ pipeline {
             steps {
                 sh '''
                 python -m pip install pytest pytest-cov
-                pytest -v --cov=.
+                pytest -v --cov=app --cov-report=term-missing
                 '''
             }
         }
