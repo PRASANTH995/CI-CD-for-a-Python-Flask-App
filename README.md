@@ -9,6 +9,6 @@ A Python Flask application with a complete CI/CD pipeline using GitHub Actions, 
 - GitHub Actions for CI (linting and testing)
 - Jenkins for CD (building and deployment)
 - Deployment to AWS EC2 and Kubernetes
-- Comprehensive testing with pytest
+- Comprehensive testing with pytest and coverage reporting
 
 ## Project Structure
