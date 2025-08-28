@@ -41,7 +41,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                python -m pip install pytest
+                python -m pip install pytest pytest-cov
                 pytest -v --cov=.
                 '''
             }
