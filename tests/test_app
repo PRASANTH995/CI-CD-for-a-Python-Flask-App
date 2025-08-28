@@ -1,0 +1,46 @@
+import pytest
+import json
+from app import app
+
+@pytest.fixture
+def client():
+    with app.test_client() as client:
+        yield client
+
+def test_hello_route(client):
+    """Test the main route returns correct response"""
+    response = client.get('/')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data["status"] == "success"
+    assert "Welcome to Flask CI/CD Demo" in data["message"]
+    assert "hostname" in data
+
+def test_status_route(client):
+    """Test the status endpoint"""
+    response = client.get('/status')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data["status"] == "healthy"
+    assert data["service"] == "flask-app"
+
+def test_health_route(client):
+    """Test the health check endpoint"""
+    response = client.get('/health')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert data == {"status": "OK"}
+
+def test_info_route(client):
+    """Test the info endpoint"""
+    response = client.get('/info')
+    assert response.status_code == 200
+    data = json.loads(response.data)
+    assert "python_version" in data
+    assert "environment" in data
+    assert "host" in data
+
+def test_nonexistent_route(client):
+    """Test that nonexistent route returns 404"""
+    response = client.get('/nonexistent')
+    assert response.status_code == 404
